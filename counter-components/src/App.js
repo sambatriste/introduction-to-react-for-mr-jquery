@@ -1,4 +1,6 @@
 import React from 'react';
+import Operator from './Operator';
+import Indicator from './Indicator';
 
 class App extends React.Component {
   constructor(props) {
@@ -6,23 +8,22 @@ class App extends React.Component {
     this.state = {
       counter: props.initialValue || 0
     }
+    this.add = this.add.bind(this);
   }
   
-  add(num) {
+  add(augend) {
     this.setState({
-      counter: this.state.counter + num
+      counter: this.state.counter + augend
     });
   }
 
   render() {
     return (
       <div>
-        <div>{this.state.counter}</div>
-        <button onClick={ev => this.add(+1)}>+1</button>
-        <button onClick={ev => this.add(-1)}>-1</button>
+        <Indicator counter={this.state.counter} />
+        <Operator add={this.add} />
       </div>
     );
   }
 }
-
 export default App;

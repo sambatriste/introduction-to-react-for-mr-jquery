@@ -1,0 +1,76 @@
+#+TITLE: jQueryおじさんによるjQueryおじさんのためのReact入門
+
+* Reactの特徴
+
+** Declarative
+
+- 宣言的<--->手続き的
+
+
+** Component-based
+
+- コンポーネント<--->神スクリプト
+
+- Atomic Design
+
+以前はほとんど実現できていなかった「再利用性」「テスタビリティ」をもたらします。
+
+
+** Learn Once, Write Anywhere
+
+一度覚えれば、どこでも（何にでも）書ける。
+
+- Web App
+- React Native
+  - React Native for Web
+- React VR
+
+* jQueryとなにがちがうんじゃい
+
+** DOMを触らなくなりました
+
+構築されたDOMをゴニョゴニョすることがない。
+
+- props(初期値)とstate(状態)からDOMを構築する。
+- 状態が変更されたら1からDOMを作り直し。
+- 仮想DOMで差分のみ更新するので性能よし。
+
+*** 例：要素の追加
+
+- stateにあるオブジェクト、配列に要素を追加して、stateの変更を通知する。
+- 最新のstateでDOMが再構築される（実際の更新は差分のみ）
+
+
+** (直接関係ないけど)開発環境がモダンになりました
+
+ビルドが当たり前に。
+
+トランスパイル+Polyfill
+  - JavaScript(またはAltJS)からJavaScriptに変換
+  - ブラウザが実装していない機能を補う
+
+最新の言語仕様や機能を積極的に使えるようになりました。  
+
+- ES2015
+- JSX
+
+ブラウザの差異を気にしなくてよい部分が増えました。
+
+※Reactにもビルドしないやり方もあるがあくまでお試し
+
+* Reactの始め方
+
+- node.js
+- yarn(optional)
+- VSCode
+
+https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
+
+これで
+
+- create-react-app
+- コード補完
+- Debugger
+- ESLint
+
+まで揃います。
