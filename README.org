@@ -35,6 +35,7 @@
 - 状態が変更されたら1からDOMを作り直し。
 - 仮想DOMで差分のみ更新するので性能よし。
 
+
 *** 例：要素の追加
 
 - stateにあるオブジェクト、配列に要素を追加して、stateの変更を通知する。
@@ -74,3 +75,43 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 - ESLint
 
 まで揃います。
+
+* Redux
+
+** Fluxとは？
+
+** Redux3原則
+
+*** Single source of truth
+
+*** State is read-only
+
+*** Changes are made with pure functions
+
+** 登場人物
+
+*** Action
+
+*** Action Creator
+
+*** Reducer
+
+*** Store
+
+*** Container Component
+
+*** Presentational Component
+
+*** Middleware
+
+* その他の話題
+
+** 非同期処理(ajax)
+
+** バリデーション
+
+** テスト
+
+* 実戦投入に向けて
+
+
