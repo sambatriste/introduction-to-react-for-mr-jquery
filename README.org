@@ -63,11 +63,14 @@
 
 - node.js
 - yarn(optional)
+- React Developer Tools (optional)
 - VSCode
+
+** Visual Studio Code
 
 https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
-これで
+これで、
 
 - create-react-app
 - コード補完
@@ -78,15 +81,98 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
 * Redux
 
+** 未解決の課題
+
+*** コンポーネントの再利用性
+
+コンポーネント内に、ビュー(render)、状態(state)、処理(イベントハンドラ)が混在していて再利用が難しい。
+「ボタンを押したら特定のURLにアクセスする」というような部品は再利用できない。
+
+
+*** バケツリレー
+
+コンポーネントの分割を進めてツリー構造を作ると、データの受け渡しが増える。
+あるコンポーネントでイベントが発生したとき、別のコンポーネントを更新したい場合、
+イベント発生を親コンポーネントに通知して、別コンポーネントに伝播させる必要がある。
+
 ** Fluxとは？
+
+#+BEGIN_QUOTE
+Flux is the application architecture that Facebook uses for building client-side web applications. 
+#+END_QUOTE
+
+*** よく見る絵
+http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png
+
+
+** Redux
+
+https://cdn-images-1.medium.com/max/1600/1*87dJ5EB3ydD7_AbhKb4UOQ.png
+
+絵を眺めていてもよくわからない。コードを追ったり写経しているうちにしっくりくる。
+
+簡単に言うと、
+
+*** これまでのやりかた
+
+- ビューで何かイベントが起こったとき（例えば商品購入ボタンをクリック）、直接ビューを更新する（買い物かごを更新）。
+
+
+*** Reduxでのやりかた
+
+- 発生したイベントを表すオブジェクト(Action≒命令書)を作る
+- Reducerは、Actionと今のstateから、新しいstateを作る
+- Containerは、コンポーネントに必要な情報をstateから抽出してpropsとして渡す
+- Containerは、コンポーネントに必要なイベントハンドラをpropsとして渡す
+- コンポーネントは受け取ったpropsからビューを作成
+
+
+- ユーザは商品購入ボタンをクリックする
+- コンポーネントは登録されたコールバック関数を呼び出す
+
+#+BEGIN_EXAMPLE html
+<button onClick={ev => props.addToCart(item, quantity)} >購入</button>
+#+END_EXAMPLE
+
+- コールバック関数で、Actionが生成され、Storeにdispatchされる
+
+#+BEGIN_EXAMPLE js
+const action = {
+  action : 'ADD_TO_CART',
+  payload : {
+    item: item,
+    quantity: quantity
+  }
+}
+#+END_EXAMPLE
+
+- Reducerは受け取ったActionと今のstateから新しいstateを作る
+
+#+BEGIN_EXAMPLE js
+const reducer = (state, action) => {
+ switch (action.type) {
+   case 'ADD_TO_CART':
+     // 新しい
+     const newState = {
+       cart: state.cart.concat({
+          item: action.payload.item,
+          quantity: action.payload.quantity
+        })
+     }
+     return newState;
+   default:
+     return state;
+ }
+}
+return newState
+
+#+END_EXAMPLE
 
 ** Redux3原則
 
-*** Single source of truth
-
-*** State is read-only
-
-*** Changes are made with pure functions
+ Single source of truth
+ State is read-only
+ Changes are made with pure functions
 
 ** 登場人物
 
@@ -104,7 +190,14 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
 *** Middleware
 
+DBやAPサーバのことではない。多分由来はRack？
+http://gihyo.jp/dev/serial/01/ruby/0025
+
 * その他の話題
+
+** Redux DevTools
+
+https://github.com/reduxjs/redux-devtools
 
 ** 非同期処理(ajax)
 
