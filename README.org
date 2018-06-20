@@ -101,15 +101,20 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 Flux is the application architecture that Facebook uses for building client-side web applications. 
 #+END_QUOTE
 
-*** よく見る絵
-http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png
+アーキテクチャであって実装ではない。
 
+*** よく見る絵
+[[http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png]]
+
+[[https://github.com/facebook/flux/raw/master/docs/img/flux-diagram-white-background.png]]
+
+絵を眺めていてもよくわからない。コードを追ったり写経しているうちにしっくりくる。
 
 ** Redux
 
-https://cdn-images-1.medium.com/max/1600/1*87dJ5EB3ydD7_AbhKb4UOQ.png
+[[https://cdn-images-1.medium.com/max/1600/1*87dJ5EB3ydD7_AbhKb4UOQ.png]]
 
-絵を眺めていてもよくわからない。コードを追ったり写経しているうちにしっくりくる。
+
 
 簡単に言うと、
 
