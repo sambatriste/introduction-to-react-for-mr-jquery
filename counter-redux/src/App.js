@@ -12,10 +12,10 @@ const store = createStore(
 
 const App = (props) => (
   <Provider store={store}>
-  <div>
-    <Indicator />
-    <Operator />
-  </div>
+    <div>
+      <Indicator />
+      <Operator />
+    </div>
   </Provider>
 );
 
