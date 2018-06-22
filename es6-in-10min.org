@@ -1,0 +1,152 @@
+#+TITLE: ES6 in 10 minuites
+
+* const, let
+
+- let : 再代入可能
+- const : 再代入不可
+
+varの出番は完全になくなりました。
+
+#+BEGIN_EXAMPLE
+> const a = 1
+undefined
+> a += 1
+TypeError: Assignment to constant variable.
+    at repl:1:3
+    at ContextifyScript.Script.runInThisContext (vm.js:50:33)
+    at REPLServer.defaultEval (repl.js:240:29)
+    at bound (domain.js:301:14)
+    at REPLServer.runBound [as eval] (domain.js:314:12)
+    at REPLServer.onLine (repl.js:442:10)
+    at emitOne (events.js:121:20)
+    at REPLServer.emit (events.js:211:7)
+    at REPLServer.Interface._onLine (readline.js:282:10)
+    at REPLServer.Interface._line (readline.js:631:8)
+#+END_EXAMPLE
+
+
+* class構文
+
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Classes
+
+自分でprototypeをゴニョゴニョすることはなくなりました。
+
+
+* アロー関数式(Arrow function expression)
+
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/arrow_functions
+
+
+通称「アロー関数」だが、関数ではない。
+
+#+BEGIN_SRC js
+const f = (arg) => { return "Hello " + arg }
+f("World")   // 'Hello World'
+#+END_SRC
+
+この例の場合、以下のような省略が可能。
+
+#+BEGIN_SRC js
+const f = arg => "Hello " + arg 
+#+END_SRC
+
+** es5
+
+#+BEGIN_SRC js
+var f = function(arg) { return "Hello " + arg }
+#+END_SRC
+
+varほどではないですが、functionの出番はなくなりました。
+
+* 高階関数3大基本技
+
+- filter
+- map
+- reduce
+
+Arrayの関数。ES5で増えたので、ES3で止まってる場合は要注意！
+
+** filter
+
+#+BEGIN_SRC js
+[1, 2, 3, 4, 5].filter(e => e % 2 === 0)
+#+END_SRC
+
+#+BEGIN_QUOTE
+[ 1, 3, 5 ]
+#+END_QUOTE
+
+*** es5
+
+#+BEGIN_SRC js
+[1, 2, 3, 4, 5].filter(function(e) { return e % 2 === 0 })
+#+END_SRC
+
+
+** map
+
+#+BEGIN_SRC js
+[1, 2, 3, 4, 5].map(e => e * 100)
+#+END_SRC
+
+#+BEGIN_QUOTE
+[ 100, 200, 300, 400, 500 ]
+#+END_QUOTE
+
+*** es5
+
+#+BEGIN_SRC js
+[1, 2, 3, 4, 5].map(function(e) { return e * 100})
+#+END_SRC
+
+** reduce
+
+#+BEGIN_EXAMPLE js
+[1, 2, 3, 4, 5].reduce((acum, curr) => acum + curr)
+#+END_EXAMPLE
+
+#+BEGIN_QUOTE
+15
+#+END_QUOTE
+
+*** es5
+
+#+BEGIN_SRC js
+[1, 2, 3, 4, 5].reduce(function(acum, curr) { return acum + curr })
+#+END_SRC
+
+** 合わせ技
+
+#+BEGIN_EXAMPLE js
+const students = [
+  { name : 'john', score: 100 },
+  { name : 'mike', score: 10 },
+  { name : 'steve', score: 60 },
+  { name : 'pole', score: 70 },
+  { name : 'robert', score: 30 }
+];
+#+END_EXAMPLE
+
+生徒のうち、点数が50点未満の生徒は誰か？
+
+#+BEGIN_SRC js
+students.filter(student => student.score < 50).map(student => student.name)
+#+END_SRC
+
+
+#+BEGIN_EXAMPLE
+[ 'mike', 'robert' ]
+#+END_EXAMPLE
+
+点数が50点未満のものは除いて、一番低い点数は何点か？
+
+#+BEGIN_SRC js
+students.filter(student => student.score > 50).map(student => student.score).reduce((acum, curr) => Math.min(acum, curr))
+#+END_SRC
+
+
+* その他
+
+ググれないものはこちら
+
+https://qiita.com/sambatriste/items/77e0779f7bc03c609ac6
