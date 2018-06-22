@@ -37,7 +37,10 @@ https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Classes
 https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/arrow_functions
 
 
+ES5までのfunctionに相当します。
 通称「アロー関数」だが、関数ではない。
+
+varほどではないですが、functionの出番はなくなりました。
 
 #+BEGIN_SRC js
 const f = (arg) => { return "Hello " + arg }
@@ -56,17 +59,26 @@ const f = arg => "Hello " + arg
 var f = function(arg) { return "Hello " + arg }
 #+END_SRC
 
-varほどではないですが、functionの出番はなくなりました。
+
 
 * 高階関数3大基本技
+
+高階関数(Higher Order Function)は、関数を引数にとる関数、戻り値に関数を返却する関数です。
+
+
+以下の3つは、名前は微妙に違ってもどの関数型言語でも使うものたちです。
 
 - filter
 - map
 - reduce
 
-Arrayの関数。ES5で増えたので、ES3で止まってる場合は要注意！
+
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array
+
 
 ** filter
+
+条件に合致した要素を抜き出します。
 
 #+BEGIN_SRC js
 [1, 2, 3, 4, 5].filter(e => e % 2 === 0)
@@ -85,6 +97,8 @@ Arrayの関数。ES5で増えたので、ES3で止まってる場合は要注意
 
 ** map
 
+元の要素の対応物を作ります（≒置き換え）。
+
 #+BEGIN_SRC js
 [1, 2, 3, 4, 5].map(e => e * 100)
 #+END_SRC
@@ -100,6 +114,8 @@ Arrayの関数。ES5で増えたので、ES3で止まってる場合は要注意
 #+END_SRC
 
 ** reduce
+
+要素を1つにまとめます。
 
 #+BEGIN_EXAMPLE js
 [1, 2, 3, 4, 5].reduce((acum, curr) => acum + curr)
@@ -117,7 +133,7 @@ Arrayの関数。ES5で増えたので、ES3で止まってる場合は要注意
 
 ** 合わせ技
 
-#+BEGIN_EXAMPLE js
+#+BEGIN_SRC js
 const students = [
   { name : 'john', score: 100 },
   { name : 'mike', score: 10 },
@@ -125,7 +141,7 @@ const students = [
   { name : 'pole', score: 70 },
   { name : 'robert', score: 30 }
 ];
-#+END_EXAMPLE
+#+END_SRC
 
 生徒のうち、点数が50点未満の生徒は誰か？
 
@@ -143,6 +159,24 @@ students.filter(student => student.score < 50).map(student => student.name)
 #+BEGIN_SRC js
 students.filter(student => student.score > 50).map(student => student.score).reduce((acum, curr) => Math.min(acum, curr))
 #+END_SRC
+
+#+BEGIN_EXAMPLE
+60
+#+END_EXAMPLE
+
+こうやってみると、こんなかんじにみえますね。
+
+| JS     | SQL      |
+|--------+----------|
+| filter | WHERE句  |
+| map    | SELECT句 |
+| reduce | 集約関数 |
+
+SQLと関数型言語がともに宣言的と言われる理由がわかったような。
+（<-->手続き的）
+
+ES5で増えたので、ES3で止まってる場合は要注意！
+React+Reduxは関数型の影響が強いのでこういう処理をよく使います！
 
 
 * その他
