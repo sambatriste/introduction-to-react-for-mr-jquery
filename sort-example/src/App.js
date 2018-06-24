@@ -1,6 +1,7 @@
 import React from 'react';
 
-class List extends React.Component {
+class App extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -21,11 +22,7 @@ class List extends React.Component {
     return (
       <div>
         <ul>
-          {
-            this.state.data.map(e => (
-              <li>{e}</li>
-            ))
-          }
+          {this.state.data.map(e => (<li>{e}</li>))}
         </ul>
         <button onClick={ev => this.sort(true)}>asc</button>
         <button onClick={ev => this.sort(false)}>desc</button>
@@ -34,4 +31,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default App;

@@ -1,5 +1,9 @@
 #+TITLE: jQueryおじさんによるjQueryおじさんのためのReact入門
 
+* Reactとは
+
+Viewのライブラリです。
+
 * Reactの特徴
 
 ** Declarative
@@ -25,6 +29,7 @@
   - React Native for Web
 - React VR
 
+
 * jQueryとなにがちがうんじゃい
 
 ** DOMを触らなくなりました
@@ -32,41 +37,86 @@
 構築されたDOMをゴニョゴニョすることがない。
 
 - props(初期値)とstate(状態)からDOMを構築する。
-- 状態が変更されたら1からDOMを作り直し。
-- 仮想DOMで差分のみ更新するので性能よし。
+  - DOMから値は取得しない(stateから値取得する)
+  - DOMに値を設定しない(stateを更新する)
+- 状態が変更されたら1からDOMを作り直し
+- 実際は *仮想DOM* で差分のみ更新するので性能よし
 
+
+オブジェクトを元にDOMを構築する（JSPのノリ）。
+構築されたDOMを直接操作しない。
+
+- イベントが発生
+- stateを変更する
+- setStateを呼ぶ。
+- 新しいstateでrenderが呼ばれる（実際は差分だけが書き換えられる）
+
+シンプルで間違えにくく性能も良い。
 
 *** 例：要素の追加
 
 - stateにあるオブジェクト、配列に要素を追加して、stateの変更を通知する。
 - 最新のstateでDOMが再構築される（実際の更新は差分のみ）
 
+** コンポーネント指向
 
-** (直接関係ないけど)開発環境がモダンになりました
+部品化がしやすい。
+「単純なコンポーネント」と「それを合成したコンポーネント」
+みたいなのがやりやすい
+
+Atomic Designと親和性が高い
+
+
+** 開発環境がモダンになりました
 
 ビルドが当たり前に。
+※Reactにもビルドしないやり方もあるがあくまでお試し＆非推奨
 
 トランスパイル+Polyfill
   - JavaScript(またはAltJS)からJavaScriptに変換
   - ブラウザが実装していない機能を補う
 
-最新の言語仕様や機能を積極的に使えるようになりました。  
+最新の言語仕様やAPIを積極的に使えるようになりました。  
 
-- ES2015
-- JSX
+- [[./es6-in-10min.org][ES2015]]
+- [[./jsx-not-so-weird.org][JSX]]
 
-ブラウザの差異を気にしなくてよい部分が増えました。
+現在の所謂モダンブラウザでは、ES2015の機能はほぼ全て使用できるのですが、
+ブラウザ間の細かい差異を気にしなくてよくなります。
 
-※Reactにもビルドしないやり方もあるがあくまでお試し
+http://kangax.github.io/compat-table/es6/
+
+
+jQueryの役割の半分くらいは、ブラウザの再吸収にあった気がしますが、
+これもトランスパイラーが面倒見てくれることになりました。
+
+
+*** create-react-app
+
+以前は最初のビルド環境構築で苦労があり、なかなかReact入門できなかったのですが、
+[[https://github.com/facebook/create-react-app][create-react-app]] コマンドのおかげで、とりあえずビルド周りの知識なしで始められるようになりました。
+
+1コマンド実行で、以下のようなことができます。
+
+- babelによるトランスパイル
+- webpackによるバンドル
+- webpack-dev-serverによる実行・自動リロード
+- jestによるユニットテスト
 
 * Reactの始め方
+
+** 体験コース
+
+- [[https://reactjs.org/redirect-to-codepen/hello-world][CodePen]](React)
+
+** 本格コース
 
 - node.js
 - yarn(optional)
 - React Developer Tools (optional)
 - VSCode
 
-** Visual Studio Code
+*** Visual Studio Code
 
 https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 
@@ -78,6 +128,20 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 - ESLint
 
 まで揃います。
+
+（時間があったらcreate-react-appしてみる）
+
+* Reactのコードを見てみる。
+
+** ソートの例
+
+構築されたDOMを触らずにソートをします。
+
+** コンポーネントの例
+
+- 単純なカウンター
+- コンポーネント化したカウンター
+- Redux化したカウンター
 
 * Redux
 
@@ -101,9 +165,17 @@ https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
 Flux is the application architecture that Facebook uses for building client-side web applications. 
 #+END_QUOTE
 
+- クライアントサイドアプリケーションのアーキテクチャ。
+  - MVCやMVVMとかと同列
+- データの流れが単一方向になる
+- Fluxは考え方なので、特定のフレームワークに依存しない。ネイティブアプリにも応用される。
+
+
+
 アーキテクチャであって実装ではない。
 
 *** よく見る絵
+
 [[http://facebook.github.io/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png]]
 
 [[https://github.com/facebook/flux/raw/master/docs/img/flux-diagram-white-background.png]]
@@ -112,11 +184,13 @@ Flux is the application architecture that Facebook uses for building client-side
 
 ** Redux
 
+
+- ReduxはFluxの実装
+- だが、独自の思想も持っている。
+
+
 [[https://cdn-images-1.medium.com/max/1600/1*87dJ5EB3ydD7_AbhKb4UOQ.png]]
 
-
-
-簡単に言うと、
 
 *** これまでのやりかた
 
@@ -125,12 +199,13 @@ Flux is the application architecture that Facebook uses for building client-side
 
 *** Reduxでのやりかた
 
-- 発生したイベントを表すオブジェクト(Action≒命令書)を作る
+- ActionCreatorは、発生したイベントを元に、実行すべき処理を表すオブジェクト(Action)を作る
 - Reducerは、Actionと今のstateから、新しいstateを作る
 - Containerは、コンポーネントに必要な情報をstateから抽出してpropsとして渡す
 - Containerは、コンポーネントに必要なイベントハンドラをpropsとして渡す
 - コンポーネントは受け取ったpropsからビューを作成
 
+*** 例：ショッピングサイトで商品を購入する
 
 - ユーザは商品購入ボタンをクリックする
 - コンポーネントは登録されたコールバック関数を呼び出す
@@ -175,28 +250,50 @@ return newState
 
 ** Redux3原則
 
- Single source of truth
- State is read-only
- Changes are made with pure functions
+*** Single source of truth
+
+- アプリケーションの状態は単一のstateで管理する
+  - stateは複数存在しない
+- 「実はこのテストをする時は、こっちのstateがAでこっちのstateはXじゃないと駄目なんです」みたいなことがなくなる。
+- stateをlocalStorageに保存するだけで、とりあえずクライアントサイドの情報は復元できる
+
+*** State is read-only
+
+- Stateを直接更新しない
+  - ActionをdispatchしてReducerで新しいStateを作る
+- データの流れが一方向になる
+
+
+*** Changes are made with pure functions
+
+変更は副作用のない関数で行います。
+
+Reduxを適用すると、各処理が関数的(functional)になります。
+これは、バグが埋め込まれにくく、テストがしやすいことを意味します。
+
+以下のように、コードの大半が副作用のない関数になります。
+
+| 名称                          | 引数                        | 戻り値                                      |
+|-------------------------------+-----------------------------+---------------------------------------------|
+| ActionCreator                 | 任意(例:更新対象データのID) | Action                                      |
+| Reducer                       | Actionとstate               | 新しいstate                                 |
+| Container(mapStateToProps)    | stateと前のprops            | stateのうち対象コンポーネントに必要なデータ |
+| Container(mapDispatchToProps) | dispatch関数とprops         | イベント発生時のコールバック関数            |
+| Component                     | props                       | HTML(Reactのelement)                        |
+
+
+これらは、ブラウザ無しで簡単にテストできます。
 
 ** 登場人物
 
-*** Action
+- Action
+- Action Creator
+- Reducer
+- Store
+- Container Component
+- Presentational Component
+- Middleware
 
-*** Action Creator
-
-*** Reducer
-
-*** Store
-
-*** Container Component
-
-*** Presentational Component
-
-*** Middleware
-
-DBやAPサーバのことではない。多分由来はRack？
-http://gihyo.jp/dev/serial/01/ruby/0025
 
 * その他の話題
 
@@ -206,10 +303,55 @@ https://github.com/reduxjs/redux-devtools
 
 ** 非同期処理(ajax)
 
+- redux-thunk
+- redux-saga
+- redux-observable
+
+どれも簡単ではないですが、下2つは特に難しいです。
+(generatorやReactive Programmingの知識が必要です)
+
 ** バリデーション
+
+業務アプリケーションでよくある入力フォームとそのバリデーションですが、
+特にこれと言ったデファクトは無いようです。。。
 
 ** テスト
 
+スナップショット比較
+
 * 実戦投入に向けて
 
+** 学習コスト
+
+PJ初期は生産性がでない模様。
+
+** 開発環境構築
+
+create-react-appは簡易的なものであり、実際は環境見れる人がいないと厳しい。
+
+
+** 将来性
+
+※個人の感想です
+
+Reactの考え方自体は不可逆なところに来た感があります。
+(単方向バインディング、仮想DOM、コンポーネント志向...)
+
+また、React本体はある程度安定感があると思います。
+（過去、Reactのライセンスが話題になりましたが、MITライセンスになりました）
+
+
+React単体では単なるViewのライブラリで、アプリケーション構築には様々なライブラリが必要となります。
+React周辺ライブラリの継続性や破壊的変更には不安が残ります。
+
+** 
+
+技術面でのリスクがある以上は、それ以外のところでカバーが必要。
+
+- アプリケーションのスペックを含めてコントールできる
+- 技術面以外での「初モノ」を極力なくす
+  - 初めての顧客
+  - 初めてのメンバー
+  - リーダー経験なしのリーダー
+  - アーキテクト経験なしのアーキテクト
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import List from './List';
+import App from './List';
 
 const data = [
   "Bach",
@@ -12,7 +12,7 @@ const data = [
 
 
 ReactDOM.render(
-  <List data={data} />,
+  <App data={data} />,
   document.getElementById('root')
 );
 

@@ -1,0 +1,54 @@
+
+#+TITLE: JSXはキモくない
+
+
+JSXはキモくないです（あんまり）。
+JSXは単なるシンタックスシュガーなので、全てJavaScriptに置き換えられます。
+
+これは、Reactを使うとき、JavaScriptのパワーを最大限利用できることを意味します。
+
+** Riot.jsの場合
+
+liタグに独自構文を仕込んでいます。
+
+#+BEGIN_SRC html
+<ul>
+  <li each={members}>{name}の得点は{score}点です。</li>
+</ul>
+<script>
+this.members = [
+  { name : 'john', score: 100 },
+  { name : 'mike', score: 10 },
+  { name : 'steve', score: 60 },
+  { name : 'pole', score: 70 },
+  { name : 'robert', score: 30 }
+];
+</script>
+#+END_SRC
+
+** Reactの場合
+
+React(JSX)の場合、JavaScriptの知識で書くことができます。
+
+#+BEGIN_SRC js
+
+render() {
+  const members = [
+    { name : 'john', score: 100 },
+    { name : 'mike', score: 10 },
+    { name : 'steve', score: 60 },
+    { name : 'pole', score: 70 },
+    { name : 'robert', score: 30 }
+  ];
+
+  return (
+    <ul>
+      members.map(m => (
+        <li each={members}>{name}の得点は{score}点です。</li>
+      ));
+    </ul>
+  );
+}
+
+
+#+END_SRC
