@@ -14,8 +14,7 @@ Viewのライブラリです。
 ** Component-based
 
 - コンポーネント<--->神スクリプト
-
-- Atomic Design
+- Storybook / Atomic Design
 
 以前はほとんど実現できていなかった「再利用性」「テスタビリティ」をもたらします。
 
@@ -26,7 +25,6 @@ Viewのライブラリです。
 
 - Web App
 - React Native
-  - React Native for Web
 - React VR
 
 
@@ -47,8 +45,7 @@ Viewのライブラリです。
 構築されたDOMを直接操作しない。
 
 - イベントが発生
-- stateを変更する
-- setStateを呼ぶ。
+- setStateを呼ぶ
 - 新しいstateでrenderが呼ばれる（実際は差分だけが書き換えられる）
 
 シンプルで間違えにくく性能も良い。
@@ -62,9 +59,11 @@ Viewのライブラリです。
 
 部品化がしやすい。
 「単純なコンポーネント」と「それを合成したコンポーネント」
-みたいなのがやりやすい
+みたいなのがやりやすい。
 
-Atomic Designと親和性が高い
+Storybook / Atomic Designと親和性が高い。
+
+https://storybook.js.org/examples/
 
 
 ** 開発環境がモダンになりました
@@ -87,7 +86,7 @@ Atomic Designと親和性が高い
 http://kangax.github.io/compat-table/es6/
 
 
-jQueryの役割の半分くらいは、ブラウザの再吸収にあった気がしますが、
+jQueryの役割の半分くらいは、ブラウザの差異吸収にあった気がしますが、
 これもトランスパイラーが面倒見てくれることになりました。
 
 
@@ -210,13 +209,13 @@ Flux is the application architecture that Facebook uses for building client-side
 - ユーザは商品購入ボタンをクリックする
 - コンポーネントは登録されたコールバック関数を呼び出す
 
-#+BEGIN_EXAMPLE html
+#+BEGIN_SRC html
 <button onClick={ev => props.addToCart(item, quantity)} >購入</button>
-#+END_EXAMPLE
+#+END_SRC
 
 - コールバック関数で、Actionが生成され、Storeにdispatchされる
 
-#+BEGIN_EXAMPLE js
+#+BEGIN_SRC js
 const action = {
   action : 'ADD_TO_CART',
   payload : {
@@ -224,11 +223,11 @@ const action = {
     quantity: quantity
   }
 }
-#+END_EXAMPLE
+#+END_SRC
 
 - Reducerは受け取ったActionと今のstateから新しいstateを作る
 
-#+BEGIN_EXAMPLE js
+#+BEGIN_SRC js
 const reducer = (state, action) => {
  switch (action.type) {
    case 'ADD_TO_CART':
@@ -246,7 +245,7 @@ const reducer = (state, action) => {
 }
 return newState
 
-#+END_EXAMPLE
+#+END_SRC
 
 ** Redux3原則
 
@@ -301,7 +300,9 @@ Reduxを適用すると、各処理が関数的(functional)になります。
 
 https://github.com/reduxjs/redux-devtools
 
-** 非同期処理(ajax)
+** 非同期処理(非同期通信)
+
+Reduxを導入した時、サーバサイドとの通信をどこでやるか？という問題が発生します。
 
 - redux-thunk
 - redux-saga
@@ -310,14 +311,32 @@ https://github.com/reduxjs/redux-devtools
 どれも簡単ではないですが、下2つは特に難しいです。
 (generatorやReactive Programmingの知識が必要です)
 
+redux-thunkが比較的かんたんですが、Actionが単純なオブジェクトでなく関数になるため、
+Reduxの純粋さが損なわれる点が惜しまれます。
+
+https://github.com/reduxjs/redux/blob/89d8f04fab2d7cc38492806c54067e4e33f98df4/examples/async/src/actions/index.js#L28
+
 ** バリデーション
 
 業務アプリケーションでよくある入力フォームとそのバリデーションですが、
 特にこれと言ったデファクトは無いようです。。。
 
+https://github.com/final-form/react-final-form#examples
+
 ** テスト
 
-スナップショット比較
+*** Jest
+
+普通のユニットテストです。
+Redux DevToolsを使うとReducerのテストケースが簡単に起こせます。
+
+
+*** react-test-renderer
+
+テスト実行時に、コンポーネントのレンダリング結果を保存、前回の結果と比較します。
+意図しない変更が発生していないか確認します。
+
+
 
 * 実戦投入に向けて
 
@@ -334,6 +353,8 @@ create-react-appは簡易的なものであり、実際は環境見れる人が�
 
 ※個人の感想です
 
+Reactの考え方は定着したが、実装はまだ不安定。
+
 Reactの考え方自体は不可逆なところに来た感があります。
 (単方向バインディング、仮想DOM、コンポーネント志向...)
 
@@ -342,9 +363,14 @@ Reactの考え方自体は不可逆なところに来た感があります。
 
 
 React単体では単なるViewのライブラリで、アプリケーション構築には様々なライブラリが必要となります。
-React周辺ライブラリの継続性や破壊的変更には不安が残ります。
+ルーティングやバリデーション、非同期通信といった必須機能もライブラリに依存します。
 
-** 
+React周辺ライブラリの継続性や破壊的変更には不安が残ります。
+（react-routerはv4で破壊的変更が入りました）
+
+** リスクをどう考えるか
+
+学習コストが高く、大規模開発のノウハウがなく、破壊的変更の可能性もあります。
 
 技術面でのリスクがある以上は、それ以外のところでカバーが必要。
 

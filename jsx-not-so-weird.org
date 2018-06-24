@@ -20,7 +20,7 @@ this.members = [
   { name : 'john', score: 100 },
   { name : 'mike', score: 10 },
   { name : 'steve', score: 60 },
-  { name : 'pole', score: 70 },
+  { name : 'paul', score: 70 },
   { name : 'robert', score: 30 }
 ];
 </script>
@@ -37,18 +37,22 @@ render() {
     { name : 'john', score: 100 },
     { name : 'mike', score: 10 },
     { name : 'steve', score: 60 },
-    { name : 'pole', score: 70 },
+    { name : 'paul', score: 70 },
     { name : 'robert', score: 30 }
   ];
 
   return (
     <ul>
-      members.map(m => (
-        <li each={members}>{name}の得点は{score}点です。</li>
-      ));
+      { 
+        members.map(m => (
+          <li>{m.name}の得点は{m.score}点です。</li>
+        ))
+      }
     </ul>
   );
 }
 
 
 #+END_SRC
+
+Scriptletを使ったJSPに近いかんじがします。
