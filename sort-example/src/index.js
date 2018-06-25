@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './List';
+import App from './App';
 
 const data = [
   "Bach",

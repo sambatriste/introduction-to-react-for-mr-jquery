@@ -10,7 +10,7 @@ class App extends React.Component {
   }
   
   sort(asc) {
-    const sorted = Array.from(original);
+    const sorted = Array.from(this.state.data);
     const compareFunction = asc ? (a, b) => a.localeCompare(b) : (a, b) => b.localeCompare(a);
     sorted.sort(compareFunction);
     this.setState({
